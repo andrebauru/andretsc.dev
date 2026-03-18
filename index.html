@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>André TSC — Desenvolvimento Web Premium & Acessível</title>
+    <meta name="description" content="Desenvolvimento de sites, plugins WordPress, apps Android e CRM SaaS com qualidade premium e preço acessível.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { 50:'#FFF9E6', 100:'#FFF0B3', 200:'#FFE680', 300:'#FFDB4D', 400:'#FFD11A', 500:'#D4A017', 600:'#B8860B', 700:'#8B6914', 800:'#5C4A1C', 900:'#2E2510' },
+                        dark: { 50:'#E8E8E8', 100:'#B9B9B9', 200:'#8A8A8A', 300:'#5B5B5B', 400:'#3D3D3D', 500:'#2C2C2C', 600:'#1A1A1A', 700:'#121212', 800:'#0A0A0A', 900:'#050505' }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                        jp: ['Noto Sans JP', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0A0A0A; color: #E8E8E8; overflow-x: hidden; }
+        .font-jp { font-family: 'Noto Sans JP', sans-serif; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #D4A017; border-radius: 3px; }
+
+        /* Gold gradient text */
+        .text-gradient { background: linear-gradient(135deg, #FFD11A, #D4A017, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        /* Animated gold border */
+        .gold-border { position: relative; }
+        .gold-border::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, #FFD11A, #B8860B, #FFD11A); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+
+        /* Glow effect */
+        .gold-glow { box-shadow: 0 0 30px rgba(212,160,23,0.15), 0 0 60px rgba(212,160,23,0.05); }
+        .gold-glow-strong { box-shadow: 0 0 40px rgba(212,160,23,0.3), 0 0 80px rgba(212,160,23,0.1); }
+
+        /* Animated background particles */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .particle { position: absolute; width: 2px; height: 2px; background: #D4A017; border-radius: 50%; opacity: 0; animation: float-particle linear infinite; }
+        @keyframes float-particle { 0% { opacity: 0; transform: translateY(100vh) scale(0); } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { opacity: 0; transform: translateY(-10vh) scale(1); } }
+
+        /* Fade in up animation */
+        .fade-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* Scale in animation */
+        .scale-in { opacity: 0; transform: scale(0.9); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .scale-in.visible { opacity: 1; transform: scale(1); }
+
+        /* Pulse ring */
+        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite; }
+        @keyframes pulse-ring { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212,160,23,0.5); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(212,160,23,0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212,160,23,0); } }
+
+        /* Spinner */
+        .spinner { width: 50px; height: 50px; border: 3px solid rgba(212,160,23,0.1); border-top: 3px solid #D4A017; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Typewriter */
+        .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid #D4A017; animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite; }
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink-caret { from, to { border-color: transparent; } 50% { border-color: #D4A017; } }
+
+        /* Hover card lift */
+        .card-hover { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(212,160,23,0.15); }
+
+        /* Nav blur */
+        .nav-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+        /* Mobile menu */
+        .mobile-menu { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .mobile-menu.open { transform: translateX(0); }
+
+        /* Counter animation */
+        .counter { display: inline-block; }
+
+        /* WhatsApp float button */
+        .wa-float { animation: wa-bounce 2s ease infinite; }
+        @keyframes wa-bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+
+        /* Lines decoration */
+        .line-decoration { position: relative; }
+        .line-decoration::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 60px; height: 2px; background: linear-gradient(90deg, #D4A017, transparent); }
+
+        /* Language switcher glow */
+        #langDropdown > button { animation: lang-glow 3s ease-in-out infinite alternate; }
+        @keyframes lang-glow { 0% { box-shadow: 0 0 8px rgba(212,160,23,0.15), 0 0 20px rgba(212,160,23,0.05); } 100% { box-shadow: 0 0 15px rgba(212,160,23,0.35), 0 0 40px rgba(212,160,23,0.1); } }
+    </style>
+</head>
+<body>
+
+<!-- Particles Background -->
+<div class="particles" id="particles"></div>
+
+<!-- ============================================================ -->
+<!-- NAVIGATION -->
+<!-- ============================================================ -->
+<nav class="fixed top-0 w-full z-50 nav-blur bg-dark-800/80 border-b border-gold-700/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 md:h-20">
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-gold-400 to-gold-700 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-gold-500/20 transition-shadow">
+                    <span class="text-dark-800 font-display font-bold text-lg">A</span>
+                </div>
+                <span class="text-white font-display font-semibold text-lg md:text-xl">André<span class="text-gradient">TSC</span></span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#services" class="nav-link text-sm text-dark-100 hover:text-gold-400 transition-colors" data-i18n="nav_services">Serviços</a>
+                <a href="#portfolio" class="nav-link text-sm text-dark-100 hover:text-gold-400 transition-colors" data-i18n="nav_portfolio">Portfólio</a>
+                <a href="#pricing" class="nav-link text-sm text-dark-100 hover:text-gold-400 transition-colors" data-i18n="nav_pricing">Preços</a>
+                <a href="#testimonials" class="nav-link text-sm text-dark-100 hover:text-gold-400 transition-colors" data-i18n="nav_testimonials">Depoimentos</a>
+                <a href="#contact" class="nav-link text-sm text-dark-100 hover:text-gold-400 transition-colors" data-i18n="nav_contact">Contato</a>
+            </div>
+
+            <!-- Language Switcher + CTA -->
+            <div class="flex items-center gap-3">
+                <!-- Language Dropdown -->
+                <div class="relative" id="langDropdown">
+                    <button onclick="toggleLangMenu()" class="flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-gold-500/60 bg-gradient-to-r from-gold-500/10 to-gold-700/10 hover:from-gold-500/20 hover:to-gold-700/20 hover:border-gold-400 transition-all text-sm shadow-lg shadow-gold-500/10 hover:shadow-gold-500/25 hover:scale-105 group">
+                        <span id="currentLangFlag" class="text-lg">🇧🇷</span>
+                        <span id="currentLangLabel" class="hidden sm:inline text-gold-300 font-semibold text-sm group-hover:text-gold-200">PT</span>
+                        <svg class="w-3.5 h-3.5 text-gold-400 group-hover:text-gold-300 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="langMenu" class="hidden absolute right-0 top-full mt-2 w-40 bg-dark-700 border border-gold-700/30 rounded-xl overflow-hidden shadow-xl shadow-black/40 z-50">
+                        <button onclick="setLanguage('pt')" class="flex items-center gap-3 w-full px-4 py-2.5 hover:bg-gold-700/10 transition-colors text-sm text-left">
+                            <span>🇧🇷</span> <span class="text-dark-100">Português</span>
+                        </button>
+                        <button onclick="setLanguage('en')" class="flex items-center gap-3 w-full px-4 py-2.5 hover:bg-gold-700/10 transition-colors text-sm text-left">
+                            <span>🇺🇸</span> <span class="text-dark-100">English</span>
+                        </button>
+                        <button onclick="setLanguage('jp')" class="flex items-center gap-3 w-full px-4 py-2.5 hover:bg-gold-700/10 transition-colors text-sm text-left">
+                            <span>🇯🇵</span> <span class="text-dark-100">日本語</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CTA Button Desktop -->
+                <a href="#contact" class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-gold-500 to-gold-700 text-dark-900 font-semibold text-sm rounded-xl hover:shadow-lg hover:shadow-gold-500/25 transition-all hover:scale-105">
+                    <span data-i18n="nav_cta">Orçamento Grátis</span>
+                </a>
+
+                <!-- Mobile Menu Toggle -->
+                <button onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-gold-700/30 bg-dark-700/50">
+                    <svg id="menuIconOpen" class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <svg id="menuIconClose" class="w-5 h-5 text-gold-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-y-0 right-0 w-72 bg-dark-800/95 nav-blur border-l border-gold-700/20 z-50 pt-20 px-6">
+        <div class="flex flex-col gap-4">
+            <a href="#services" onclick="closeMobileMenu()" class="text-dark-100 hover:text-gold-400 py-2 border-b border-dark-600/50 transition-colors" data-i18n="nav_services">Serviços</a>
+            <a href="#portfolio" onclick="closeMobileMenu()" class="text-dark-100 hover:text-gold-400 py-2 border-b border-dark-600/50 transition-colors" data-i18n="nav_portfolio">Portfólio</a>
+            <a href="#pricing" onclick="closeMobileMenu()" class="text-dark-100 hover:text-gold-400 py-2 border-b border-dark-600/50 transition-colors" data-i18n="nav_pricing">Preços</a>
+            <a href="#testimonials" onclick="closeMobileMenu()" class="text-dark-100 hover:text-gold-400 py-2 border-b border-dark-600/50 transition-colors" data-i18n="nav_testimonials">Depoimentos</a>
+            <a href="#contact" onclick="closeMobileMenu()" class="text-dark-100 hover:text-gold-400 py-2 border-b border-dark-600/50 transition-colors" data-i18n="nav_contact">Contato</a>
+            <a href="#contact" onclick="closeMobileMenu()" class="mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-gold-500 to-gold-700 text-dark-900 font-semibold text-sm rounded-xl">
+                <span data-i18n="nav_cta">Orçamento Grátis</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- HERO SECTION -->
+<!-- ============================================================ -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-gold-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-gold-600/5 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-gold-700/5 rounded-full"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-gold-700/3 rounded-full"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Badge -->
+        <div class="fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold-700/30 bg-dark-700/50 mb-8">
+            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <span class="text-xs text-dark-100 font-medium" data-i18n="hero_badge">Disponível para novos projetos</span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="fade-up font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+            <span class="text-white" data-i18n="hero_title_1">Transformo Suas Ideias em</span><br>
+            <span class="text-gradient" data-i18n="hero_title_2">Experiências Digitais Premium</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="fade-up max-w-2xl mx-auto text-lg md:text-xl text-dark-200 mb-4 leading-relaxed" data-i18n="hero_subtitle">
+            Desenvolvimento de sites, plugins WordPress, apps Android e sistemas CRM SaaS — com qualidade de agência e preço acessível para freelancers e empreendedores.
+        </p>
+        <p class="fade-up max-w-xl mx-auto text-sm text-dark-300 mb-10" data-i18n="hero_subtitle2">
+            Baseado no Japão 🇯🇵 · Atendendo clientes no Brasil 🇧🇷 e no mundo 🌍
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="fade-up flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <a href="#contact" class="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-bold text-base rounded-2xl hover:shadow-2xl hover:shadow-gold-500/30 transition-all hover:scale-105">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.764-1.346A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.239 0-4.332-.639-6.104-1.746l-.427-.27-2.874.812.735-2.727-.282-.449A9.941 9.941 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                <span data-i18n="hero_cta1">Falar no WhatsApp</span>
+            </a>
+            <a href="#portfolio" class="inline-flex items-center gap-3 px-8 py-4 border border-gold-700/40 text-gold-400 font-semibold text-base rounded-2xl hover:bg-gold-700/10 transition-all hover:border-gold-500/60">
+                <span data-i18n="hero_cta2">Ver Portfólio</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="fade-up grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+            <div class="text-center">
+                <div class="text-2xl md:text-3xl font-display font-bold text-gradient counter" data-target="50">0</div>
+                <div class="text-xs md:text-sm text-dark-300 mt-1" data-i18n="stat_projects">+ Projetos Entregues</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl md:text-3xl font-display font-bold text-gradient counter" data-target="5">0</div>
+                <div class="text-xs md:text-sm text-dark-300 mt-1" data-i18n="stat_years">+ Anos de Experiência</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl md:text-3xl font-display font-bold text-gradient counter" data-target="30">0</div>
+                <div class="text-xs md:text-sm text-dark-300 mt-1" data-i18n="stat_clients">+ Clientes Satisfeitos</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl md:text-3xl font-display font-bold text-gradient counter" data-target="3">0</div>
+                <div class="text-xs md:text-sm text-dark-300 mt-1" data-i18n="stat_countries">Países Atendidos</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+        <span class="text-xs text-dark-400" data-i18n="scroll_down">Role para baixo</span>
+        <svg class="w-5 h-5 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SERVICES SECTION -->
+<!-- ============================================================ -->
+<section id="services" class="relative py-24 md:py-32">
+    <div class="absolute inset-0 bg-gradient-to-b from-dark-800/0 via-dark-700/30 to-dark-800/0"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16 md:mb-20">
+            <span class="fade-up inline-block text-gold-500 text-sm font-semibold tracking-widest uppercase mb-4" data-i18n="services_label">O que eu faço</span>
+            <h2 class="fade-up font-display text-3xl md:text-5xl font-bold text-white mb-4" data-i18n="services_title">Soluções Digitais Completas</h2>
+            <p class="fade-up max-w-2xl mx-auto text-dark-200" data-i18n="services_subtitle">Do conceito à entrega, cuido de cada detalhe para que seu projeto digital tenha a qualidade que seu negócio merece.</p>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Service 1: Websites -->
+            <div class="fade-up card-hover group p-6 md:p-8 rounded-2xl bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-full blur-2xl group-hover:bg-gold-500/10 transition-all"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/20 flex items-center justify-center mb-5 group-hover:from-gold-500/30 group-hover:to-gold-700/30 transition-all">
+                        <svg class="w-7 h-7 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-white mb-3" data-i18n="service1_title">Sites & Landing Pages</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="service1_desc">Sites institucionais, landing pages de alta conversão e lojas virtuais. Design responsivo e otimizado para SEO.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">HTML/CSS</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">React</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">Next.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2: WordPress -->
+            <div class="fade-up card-hover group p-6 md:p-8 rounded-2xl bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-full blur-2xl group-hover:bg-gold-500/10 transition-all"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/20 flex items-center justify-center mb-5 group-hover:from-gold-500/30 group-hover:to-gold-700/30 transition-all">
+                        <svg class="w-7 h-7 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-white mb-3" data-i18n="service2_title">Plugins WordPress</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="service2_desc">Plugins personalizados que adicionam funcionalidades únicas ao seu WordPress. Integrações, automações e otimizações.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">PHP</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">WordPress</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">WooCommerce</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3: Android Apps -->
+            <div class="fade-up card-hover group p-6 md:p-8 rounded-2xl bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-full blur-2xl group-hover:bg-gold-500/10 transition-all"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/20 flex items-center justify-center mb-5 group-hover:from-gold-500/30 group-hover:to-gold-700/30 transition-all">
+                        <svg class="w-7 h-7 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-white mb-3" data-i18n="service3_title">Apps Android</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="service3_desc">Aplicativos Android nativos e híbridos para seu negócio. Do MVP ao app completo publicado na Play Store.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">Kotlin</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">React Native</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">Firebase</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 4: CRM/SaaS -->
+            <div class="fade-up card-hover group p-6 md:p-8 rounded-2xl bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-full blur-2xl group-hover:bg-gold-500/10 transition-all"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/20 flex items-center justify-center mb-5 group-hover:from-gold-500/30 group-hover:to-gold-700/30 transition-all">
+                        <svg class="w-7 h-7 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-white mb-3" data-i18n="service4_title">CRM & SaaS</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="service4_desc">Sistemas web personalizados para gerenciar clientes, vendas e processos. Dashboards e automações sob medida.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">Node.js</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">PostgreSQL</span>
+                        <span class="px-2 py-1 text-xs bg-dark-600/60 text-dark-100 rounded-md">API REST</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PORTFOLIO / SCENARIOS SECTION -->
+<!-- ============================================================ -->
+<section id="portfolio" class="relative py-24 md:py-32">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 md:mb-20">
+            <span class="fade-up inline-block text-gold-500 text-sm font-semibold tracking-widest uppercase mb-4" data-i18n="portfolio_label">Casos Reais</span>
+            <h2 class="fade-up font-display text-3xl md:text-5xl font-bold text-white mb-4" data-i18n="portfolio_title">Projetos que Geram Resultados</h2>
+            <p class="fade-up max-w-2xl mx-auto text-dark-200" data-i18n="portfolio_subtitle">Veja como ajudei freelancers e empreendedores a alavancar seus negócios com soluções digitais acessíveis.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Case 1: CRM-Terreiro -->
+            <a href="https://github.com/andrebauru/CRM-Terreiro" target="_blank" class="fade-up card-hover group rounded-2xl overflow-hidden bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 block">
+                <div class="h-48 bg-gradient-to-br from-dark-600 to-dark-700 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gold-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-center relative z-10">
+                        <svg class="w-12 h-12 text-gold-500/60 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                        <span class="text-xs text-dark-300">CRM System</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2 py-0.5 text-xs bg-gold-500/10 text-gold-400 rounded-full">PHP 8 + MySQL + Tailwind CSS</span>
+                        <svg class="w-4 h-4 text-dark-400 ml-auto group-hover:text-gold-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="case1_title">CRM-Terreiro — Sistema de Gerenciamento</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="case1_desc">CRM completo para gerenciamento com dashboard, controle de membros, serviços, financeiro, mensalidades e relatórios. Sistema web robusto com PHP 8, MySQL e Tailwind CSS.</p>
+                    <div class="flex items-center gap-4 text-xs text-dark-300">
+                        <span class="flex items-center gap-1">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span data-i18n="case1_stat">Open Source</span>
+                        </span>
+                        <span>•</span>
+                        <span data-i18n="case1_time">PHP + MySQL</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Case 2: oficina-mecanica -->
+            <a href="https://github.com/andrebauru/oficina-mecanica" target="_blank" class="fade-up card-hover group rounded-2xl overflow-hidden bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 block">
+                <div class="h-48 bg-gradient-to-br from-dark-600 to-dark-700 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gold-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-center relative z-10">
+                        <svg class="w-12 h-12 text-gold-500/60 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span class="text-xs text-dark-300">Web System</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2 py-0.5 text-xs bg-gold-500/10 text-gold-400 rounded-full">TypeScript + Web</span>
+                        <svg class="w-4 h-4 text-dark-400 ml-auto group-hover:text-gold-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="case2_title">Oficina Mecânica — Sistema de Gestão</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="case2_desc">Sistema web para gerenciamento de oficinas mecânicas com controle de clientes, veículos, serviços, peças e ordens de serviço. Interface moderna em TypeScript.</p>
+                    <div class="flex items-center gap-4 text-xs text-dark-300">
+                        <span class="flex items-center gap-1">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span data-i18n="case2_stat">Open Source</span>
+                        </span>
+                        <span>•</span>
+                        <span data-i18n="case2_time">TypeScript</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Case 3: TikTokScroll -->
+            <a href="https://github.com/andrebauru/TikTokScroll" target="_blank" class="fade-up card-hover group rounded-2xl overflow-hidden bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 block">
+                <div class="h-48 bg-gradient-to-br from-dark-600 to-dark-700 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gold-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="text-center relative z-10">
+                        <svg class="w-12 h-12 text-gold-500/60 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                        <span class="text-xs text-dark-300">App Android</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-2 py-0.5 text-xs bg-gold-500/10 text-gold-400 rounded-full">Flutter + Dart</span>
+                        <svg class="w-4 h-4 text-dark-400 ml-auto group-hover:text-gold-400 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-lg mb-2" data-i18n="case3_title">TikTokScroll — App de Vídeos Flutter</h3>
+                    <p class="text-sm text-dark-200 leading-relaxed mb-4" data-i18n="case3_desc">Aplicativo Flutter que simula a experiência de rolagem automática de vídeos do TikTok. Desenvolvido com Dart, demonstrando expertise em video playback e UI mobile nativa.</p>
+                    <div class="flex items-center gap-4 text-xs text-dark-300">
+                        <span class="flex items-center gap-1">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span data-i18n="case3_stat">Open Source</span>
+                        </span>
+                        <span>•</span>
+                        <span data-i18n="case3_time">Flutter + Dart</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PRICING SECTION -->
+<!-- ============================================================ -->
+<section id="pricing" class="relative py-24 md:py-32">
+    <div class="absolute inset-0 bg-gradient-to-b from-dark-800/0 via-dark-700/30 to-dark-800/0"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 md:mb-20">
+            <span class="fade-up inline-block text-gold-500 text-sm font-semibold tracking-widest uppercase mb-4" data-i18n="pricing_label">Investimento</span>
+            <h2 class="fade-up font-display text-3xl md:text-5xl font-bold text-white mb-4" data-i18n="pricing_title">Planos Acessíveis, Qualidade Premium</h2>
+            <p class="fade-up max-w-2xl mx-auto text-dark-200" data-i18n="pricing_subtitle">Preços justos pensados para quem está começando ou quer crescer sem gastar uma fortuna.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <!-- Plan 1: Starter -->
+            <div class="fade-up card-hover p-8 rounded-2xl bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 relative">
+                <div class="mb-6">
+                    <h3 class="font-display text-xl font-bold text-white mb-1" data-i18n="plan1_name">Essencial</h3>
+                    <p class="text-sm text-dark-300" data-i18n="plan1_desc">Ideal para quem precisa de uma presença online profissional</p>
+                </div>
+                <div class="mb-6">
+                    <div class="flex items-baseline gap-1 mt-1">
+                        <span class="text-2xl font-display font-bold text-gradient" data-i18n="plan1_price">A Combinar</span>
+                    </div>
+                    <span class="text-xs text-dark-400" data-i18n="plan1_brl">Preço justo para cada projeto</span>
+                </div>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan1_f1">Landing page responsiva (até 5 seções)</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan1_f2">Design moderno e otimizado para SEO</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan1_f3">Integração WhatsApp e redes sociais</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan1_f4">Entrega em até 2 semanas</span></li>
+                </ul>
+                <a href="#contact" class="block w-full text-center py-3 rounded-xl border border-gold-700/40 text-gold-400 font-semibold text-sm hover:bg-gold-700/10 transition-all" data-i18n="plan_cta">Solicitar Orçamento</a>
+            </div>
+
+            <!-- Plan 2: Professional (Featured) -->
+            <div class="fade-up card-hover p-8 rounded-2xl bg-gradient-to-b from-dark-600/80 to-dark-700/80 border-2 border-gold-500/40 relative gold-glow-strong scale-[1.02]">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-gold-400 to-gold-600 rounded-full text-xs font-bold text-dark-900" data-i18n="plan2_badge">MAIS POPULAR</div>
+                <div class="mb-6">
+                    <h3 class="font-display text-xl font-bold text-white mb-1" data-i18n="plan2_name">Profissional</h3>
+                    <p class="text-sm text-dark-300" data-i18n="plan2_desc">Para quem quer um projeto completo com funcionalidades avançadas</p>
+                </div>
+                <div class="mb-6">
+                    <div class="flex items-baseline gap-1 mt-1">
+                        <span class="text-2xl font-display font-bold text-gradient" data-i18n="plan2_price">A Combinar</span>
+                    </div>
+                    <span class="text-xs text-dark-400" data-i18n="plan2_brl">O melhor custo-benefício</span>
+                </div>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan2_f1">Site completo ou App Android (até 10 telas)</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan2_f2">Painel administrativo personalizado</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan2_f3">Integração com pagamentos e APIs</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan2_f4">30 dias de suporte pós-entrega</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan2_f5">Publicação na Play Store inclusa</span></li>
+                </ul>
+                <a href="#contact" class="block w-full text-center py-3 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-bold text-sm hover:shadow-lg hover:shadow-gold-500/25 transition-all" data-i18n="plan_cta">Solicitar Orçamento</a>
+            </div>
+
+            <!-- Plan 3: Enterprise -->
+            <div class="fade-up card-hover p-8 rounded-2xl bg-dark-700/40 border border-gold-700/10 hover:border-gold-500/30 relative">
+                <div class="mb-6">
+                    <h3 class="font-display text-xl font-bold text-white mb-1" data-i18n="plan3_name">Empresarial</h3>
+                    <p class="text-sm text-dark-300" data-i18n="plan3_desc">Soluções completas de CRM, SaaS e sistemas sob medida</p>
+                </div>
+                <div class="mb-6">
+                    <div class="flex items-baseline gap-1 mt-1">
+                        <span class="text-2xl font-display font-bold text-gradient" data-i18n="plan3_price">A Combinar</span>
+                    </div>
+                    <span class="text-xs text-dark-400" data-i18n="plan3_brl">Solução sob medida para você</span>
+                </div>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan3_f1">Sistema CRM/SaaS completo e personalizado</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan3_f2">Dashboard com relatórios e métricas</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan3_f3">Automações e integrações avançadas</span></li>
+                    <li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span data-i18n="plan3_f4">60 dias de suporte e treinamento</span></li>
+                </ul>
+                <a href="#contact" class="block w-full text-center py-3 rounded-xl border border-gold-700/40 text-gold-400 font-semibold text-sm hover:bg-gold-700/10 transition-all" data-i18n="plan_cta">Solicitar Orçamento</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TESTIMONIALS SECTION -->
+<!-- ============================================================ -->
+<section id="testimonials" class="relative py-24 md:py-32">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 md:mb-20">
+            <span class="fade-up inline-block text-gold-500 text-sm font-semibold tracking-widest uppercase mb-4" data-i18n="testimonials_label">Depoimentos</span>
+            <h2 class="fade-up font-display text-3xl md:text-5xl font-bold text-white mb-4" data-i18n="testimonials_title">O que Meus Clientes Dizem</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <!-- Testimonial 1 -->
+            <div class="fade-up p-6 rounded-2xl bg-dark-700/40 border border-gold-700/10 relative">
+                <div class="flex gap-1 mb-4">
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </div>
+                <p class="text-sm text-dark-200 leading-relaxed mb-5 italic" data-i18n="testimonial1_text">"Eu achava que ter um site profissional era coisa de empresa grande. O André me mostrou que é possível ter qualidade premium com um preço que cabe no meu bolso de freelancer."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-700 flex items-center justify-center text-dark-900 font-bold text-sm">M</div>
+                    <div>
+                        <p class="text-sm font-semibold text-white" data-i18n="testimonial1_name">Maria Fernanda</p>
+                        <p class="text-xs text-dark-400" data-i18n="testimonial1_role">Artesã · Belo Horizonte</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="fade-up p-6 rounded-2xl bg-dark-700/40 border border-gold-700/10 relative">
+                <div class="flex gap-1 mb-4">
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </div>
+                <p class="text-sm text-dark-200 leading-relaxed mb-5 italic" data-i18n="testimonial2_text">"O CRM que ele desenvolveu mudou completamente minha rotina. Antes eu perdia horas em planilhas, agora tudo é automático. Super recomendo para quem precisa organizar clientes."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-700 flex items-center justify-center text-dark-900 font-bold text-sm">R</div>
+                    <div>
+                        <p class="text-sm font-semibold text-white" data-i18n="testimonial2_name">Roberto Mendes</p>
+                        <p class="text-xs text-dark-400" data-i18n="testimonial2_role">Coach de Carreira · São Paulo</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="fade-up p-6 rounded-2xl bg-dark-700/40 border border-gold-700/10 relative">
+                <div class="flex gap-1 mb-4">
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </div>
+                <p class="text-sm text-dark-200 leading-relaxed mb-5 italic" data-i18n="testimonial3_text">"Meus alunos amaram o app! Agora eles mesmos agendam os treinos e eu recebo notificação em tempo real. O André entendeu exatamente o que eu precisava e entregou rápido."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-700 flex items-center justify-center text-dark-900 font-bold text-sm">C</div>
+                    <div>
+                        <p class="text-sm font-semibold text-white" data-i18n="testimonial3_name">Carla Souza</p>
+                        <p class="text-xs text-dark-400" data-i18n="testimonial3_role">Personal Trainer · Rio de Janeiro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CONTACT / QUOTE SECTION -->
+<!-- ============================================================ -->
+<section id="contact" class="relative py-24 md:py-32">
+    <div class="absolute inset-0 bg-gradient-to-b from-dark-800/0 via-dark-700/30 to-dark-800/0"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="fade-up inline-block text-gold-500 text-sm font-semibold tracking-widest uppercase mb-4" data-i18n="contact_label">Vamos Conversar</span>
+            <h2 class="fade-up font-display text-3xl md:text-5xl font-bold text-white mb-4" data-i18n="contact_title">Descreva Seu Projeto</h2>
+            <p class="fade-up max-w-xl mx-auto text-dark-200" data-i18n="contact_subtitle">Me conte sobre sua ideia e receba uma estimativa personalizada. Responderei em até 24 horas pelo WhatsApp.</p>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="fade-up max-w-2xl mx-auto">
+            <div class="p-8 md:p-10 rounded-3xl bg-dark-700/50 border border-gold-700/15 gold-glow">
+                <form id="quoteForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <!-- Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-dark-100 mb-2" data-i18n="form_name_label">Seu Nome</label>
+                        <input type="text" id="formName" required class="w-full px-4 py-3 bg-dark-600/50 border border-gold-700/20 rounded-xl text-white placeholder-dark-400 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all" data-i18n-placeholder="form_name_placeholder" placeholder="Como posso te chamar?">
+                    </div>
+
+                    <!-- Project Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-dark-100 mb-2" data-i18n="form_type_label">Tipo de Projeto</label>
+                        <select id="formType" required class="w-full px-4 py-3 bg-dark-600/50 border border-gold-700/20 rounded-xl text-white focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all appearance-none cursor-pointer">
+                            <option value="" disabled selected data-i18n="form_type_placeholder">Selecione o tipo de projeto...</option>
+                            <option value="website" data-i18n="form_type_opt1">Site / Landing Page</option>
+                            <option value="wordpress" data-i18n="form_type_opt2">Plugin WordPress</option>
+                            <option value="app" data-i18n="form_type_opt3">App Android</option>
+                            <option value="crm" data-i18n="form_type_opt4">CRM / Sistema SaaS</option>
+                            <option value="other" data-i18n="form_type_opt5">Outro</option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-dark-100 mb-2" data-i18n="form_desc_label">Descreva Seu Projeto</label>
+                        <textarea id="formDesc" required rows="4" class="w-full px-4 py-3 bg-dark-600/50 border border-gold-700/20 rounded-xl text-white placeholder-dark-400 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all resize-none" data-i18n-placeholder="form_desc_placeholder" placeholder="Ex: Preciso de um site para minha loja de roupas com catálogo de produtos, integração com WhatsApp e sistema de pagamentos..."></textarea>
+                    </div>
+
+                    <!-- Budget Range -->
+                    <div>
+                        <label class="block text-sm font-medium text-dark-100 mb-2" data-i18n="form_budget_label">Orçamento Estimado</label>
+                        <select id="formBudget" class="w-full px-4 py-3 bg-dark-600/50 border border-gold-700/20 rounded-xl text-white focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/30 transition-all appearance-none cursor-pointer">
+                            <option value="" disabled selected data-i18n="form_budget_placeholder">Selecione uma faixa...</option>
+                            <option value="low" data-i18n="form_budget_opt1">Projeto simples (landing page, site básico)</option>
+                            <option value="mid" data-i18n="form_budget_opt2">Projeto médio (site completo, plugin, app)</option>
+                            <option value="high" data-i18n="form_budget_opt3">Projeto avançado (sistema, CRM, SaaS)</option>
+                            <option value="custom" data-i18n="form_budget_opt4">Projeto enterprise / Personalizado</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" id="submitBtn" class="w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-bold text-base rounded-2xl hover:shadow-2xl hover:shadow-gold-500/30 transition-all hover:scale-[1.02]">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.764-1.346A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.239 0-4.332-.639-6.104-1.746l-.427-.27-2.874.812.735-2.727-.282-.449A9.941 9.941 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                        <span data-i18n="form_submit">Enviar pelo WhatsApp</span>
+                    </button>
+                </form>
+
+                <!-- Processing State -->
+                <div id="processingState" class="hidden text-center py-10">
+                    <div class="spinner mx-auto mb-6"></div>
+                    <p class="text-gold-400 font-medium mb-2" data-i18n="processing_title">Preparando sua mensagem...</p>
+                    <p class="text-sm text-dark-300" data-i18n="processing_subtitle">Gerando estimativa personalizada</p>
+                </div>
+
+                <!-- Result State -->
+                <div id="resultState" class="hidden">
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-2" data-i18n="result_title">Estimativa Gerada!</h3>
+                        <div id="resultContent" class="text-left bg-dark-600/50 rounded-2xl p-6 mb-6 border border-gold-700/10"></div>
+                        <a id="whatsappLink" href="#" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-green-600 text-white font-bold text-base rounded-2xl hover:bg-green-500 transition-all hover:scale-105">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.764-1.346A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+                            <span data-i18n="result_wa_btn">Abrir WhatsApp Agora</span>
+                        </a>
+                        <button onclick="resetForm()" class="block mx-auto mt-4 text-sm text-dark-300 hover:text-gold-400 transition-colors" data-i18n="result_reset">← Enviar outro projeto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FOOTER -->
+<!-- ============================================================ -->
+<footer class="relative py-12 border-t border-gold-700/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-700 flex items-center justify-center">
+                    <span class="text-dark-800 font-display font-bold text-sm">A</span>
+                </div>
+                <span class="text-white font-display font-semibold">André<span class="text-gradient">TSC</span></span>
+            </div>
+            <p class="text-sm text-dark-400" data-i18n="footer_copy">© 2026 AndréTSC. Todos os direitos reservados. Feito com ❤️ no Japão.</p>
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/817091741943" target="_blank" class="w-9 h-9 rounded-lg bg-dark-700/50 border border-gold-700/20 flex items-center justify-center text-dark-200 hover:text-gold-400 hover:border-gold-500/40 transition-all" aria-label="WhatsApp">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.764-1.346A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+                </a>
+                <a href="https://github.com/andretsc" target="_blank" class="w-9 h-9 rounded-lg bg-dark-700/50 border border-gold-700/20 flex items-center justify-center text-dark-200 hover:text-gold-400 hover:border-gold-500/40 transition-all" aria-label="GitHub">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================ -->
+<!-- FLOATING WHATSAPP BUTTON -->
+<!-- ============================================================ -->
+<a href="https://wa.me/817091741943" target="_blank" class="fixed bottom-6 right-6 z-50 wa-float w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30 hover:bg-green-400 transition-colors pulse-ring" aria-label="WhatsApp">
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.764-1.346A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.239 0-4.332-.639-6.104-1.746l-.427-.27-2.874.812.735-2.727-.282-.449A9.941 9.941 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+</a>
+
+<!-- ============================================================ -->
+<!-- JAVASCRIPT -->
+<!-- ============================================================ -->
+<script>
+// =============================================================
+// INTERNATIONALIZATION (i18n)
+// =============================================================
+const translations = {
+    pt: {
+        nav_services: 'Serviços', nav_portfolio: 'Portfólio', nav_pricing: 'Preços', nav_testimonials: 'Depoimentos', nav_contact: 'Contato', nav_cta: 'Orçamento Grátis',
+        hero_badge: 'Disponível para novos projetos',
+        hero_title_1: 'Transformo Suas Ideias em', hero_title_2: 'Experiências Digitais Premium',
+        hero_subtitle: 'Desenvolvimento de sites, plugins WordPress, apps Android e sistemas CRM SaaS — com qualidade de agência e preço acessível para freelancers e empreendedores.',
+        hero_subtitle2: 'Baseado no Japão 🇯🇵 · Atendendo clientes no Brasil 🇧🇷 e no mundo 🌍',
+        hero_cta1: 'Falar no WhatsApp', hero_cta2: 'Ver Portfólio',
+        stat_projects: '+ Projetos Entregues', stat_years: '+ Anos de Experiência', stat_clients: '+ Clientes Satisfeitos', stat_countries: 'Países Atendidos',
+        scroll_down: 'Role para baixo',
+        services_label: 'O que eu faço', services_title: 'Soluções Digitais Completas', services_subtitle: 'Do conceito à entrega, cuido de cada detalhe para que seu projeto digital tenha a qualidade que seu negócio merece.',
+        service1_title: 'Sites & Landing Pages', service1_desc: 'Sites institucionais, landing pages de alta conversão e lojas virtuais. Design responsivo e otimizado para SEO.',
+        service2_title: 'Plugins WordPress', service2_desc: 'Plugins personalizados que adicionam funcionalidades únicas ao seu WordPress. Integrações, automações e otimizações.',
+        service3_title: 'Apps Android', service3_desc: 'Aplicativos Android nativos e híbridos para seu negócio. Do MVP ao app completo publicado na Play Store.',
+        service4_title: 'CRM & SaaS', service4_desc: 'Sistemas web personalizados para gerenciar clientes, vendas e processos. Dashboards e automações sob medida.',
+        portfolio_label: 'Portfólio GitHub', portfolio_title: 'Projetos Open Source', portfolio_subtitle: 'Confira alguns dos meus projetos reais no GitHub — código aberto que demonstra qualidade e dedicação.',
+        case1_title: 'CRM-Terreiro — Sistema de Gerenciamento', case1_desc: 'CRM completo para gerenciamento com dashboard, controle de membros, serviços, financeiro, mensalidades e relatórios. Sistema web robusto com PHP 8, MySQL e Tailwind CSS.', case1_stat: 'Open Source', case1_time: 'PHP + MySQL',
+        case2_title: 'Oficina Mecânica — Sistema de Gestão', case2_desc: 'Sistema web para gerenciamento de oficinas mecânicas com controle de clientes, veículos, serviços, peças e ordens de serviço. Interface moderna em TypeScript.', case2_stat: 'Open Source', case2_time: 'TypeScript',
+        case3_title: 'TikTokScroll — App de Vídeos Flutter', case3_desc: 'Aplicativo Flutter que simula a experiência de rolagem automática de vídeos do TikTok. Desenvolvido com Dart, demonstrando expertise em video playback e UI mobile nativa.', case3_stat: 'Open Source', case3_time: 'Flutter + Dart',
+        pricing_label: 'Investimento', pricing_title: 'Qualidade Premium, Preço Justo', pricing_subtitle: 'Cada projeto é único. Valores definidos de acordo com a complexidade e necessidades específicas do seu negócio.',
+        plan1_name: 'Essencial', plan1_desc: 'Ideal para quem precisa de uma presença online profissional', plan1_price: 'A Combinar', plan1_brl: 'Preço justo para cada projeto',
+        plan1_f1: 'Landing page responsiva (até 5 seções)', plan1_f2: 'Design moderno e otimizado para SEO', plan1_f3: 'Integração WhatsApp e redes sociais', plan1_f4: 'Entrega em até 2 semanas',
+        plan2_badge: 'MAIS POPULAR', plan2_name: 'Profissional', plan2_desc: 'Para quem quer um projeto completo com funcionalidades avançadas', plan2_price: 'A Combinar', plan2_brl: 'O melhor custo-benefício',
+        plan2_f1: 'Site completo ou App Android (até 10 telas)', plan2_f2: 'Painel administrativo personalizado', plan2_f3: 'Integração com pagamentos e APIs', plan2_f4: '30 dias de suporte pós-entrega', plan2_f5: 'Publicação na Play Store inclusa',
+        plan3_name: 'Empresarial', plan3_desc: 'Soluções completas de CRM, SaaS e sistemas sob medida', plan3_price: 'A Combinar', plan3_brl: 'Solução sob medida para você',
+        plan3_f1: 'Sistema CRM/SaaS completo e personalizado', plan3_f2: 'Dashboard com relatórios e métricas', plan3_f3: 'Automações e integrações avançadas', plan3_f4: '60 dias de suporte e treinamento',
+        plan_cta: 'Solicitar Orçamento',
+        testimonials_label: 'Depoimentos', testimonials_title: 'O que Meus Clientes Dizem',
+        testimonial1_text: '"Eu achava que ter um site profissional era coisa de empresa grande. O André me mostrou que é possível ter qualidade premium com um preço que cabe no meu bolso de freelancer."', testimonial1_name: 'Maria Fernanda', testimonial1_role: 'Artesã · Belo Horizonte',
+        testimonial2_text: '"O CRM que ele desenvolveu mudou completamente minha rotina. Antes eu perdia horas em planilhas, agora tudo é automático. Super recomendo para quem precisa organizar clientes."', testimonial2_name: 'Roberto Mendes', testimonial2_role: 'Coach de Carreira · São Paulo',
+        testimonial3_text: '"Meus alunos amaram o app! Agora eles mesmos agendam os treinos e eu recebo notificação em tempo real. O André entendeu exatamente o que eu precisava e entregou rápido."', testimonial3_name: 'Carla Souza', testimonial3_role: 'Personal Trainer · Rio de Janeiro',
+        contact_label: 'Vamos Conversar', contact_title: 'Descreva Seu Projeto', contact_subtitle: 'Me conte sobre sua ideia e receba uma estimativa personalizada. Responderei em até 24 horas pelo WhatsApp.',
+        form_name_label: 'Seu Nome', form_name_placeholder: 'Como posso te chamar?',
+        form_type_label: 'Tipo de Projeto', form_type_placeholder: 'Selecione o tipo de projeto...',
+        form_type_opt1: 'Site / Landing Page', form_type_opt2: 'Plugin WordPress', form_type_opt3: 'App Android', form_type_opt4: 'CRM / Sistema SaaS', form_type_opt5: 'Outro',
+        form_desc_label: 'Descreva Seu Projeto', form_desc_placeholder: 'Ex: Preciso de um site para minha loja de roupas com catálogo de produtos, integração com WhatsApp e sistema de pagamentos...',
+        form_budget_label: 'Orçamento Estimado', form_budget_placeholder: 'Selecione uma faixa...',
+        form_budget_opt1: 'Projeto simples (landing page, site básico)', form_budget_opt2: 'Projeto médio (site completo, plugin, app)', form_budget_opt3: 'Projeto avançado (sistema, CRM, SaaS)', form_budget_opt4: 'Projeto enterprise / Personalizado',
+        form_submit: 'Enviar pelo WhatsApp',
+        processing_title: 'Preparando sua mensagem...', processing_subtitle: 'Gerando estimativa personalizada',
+        result_title: 'Estimativa Gerada!', result_wa_btn: 'Abrir WhatsApp Agora', result_reset: '← Enviar outro projeto',
+        footer_copy: '© 2026 AndréTSC. Todos os direitos reservados. Feito com ❤️ no Japão.',
+        est_type: 'Tipo de Projeto', est_timeline: 'Prazo Estimado', est_price: 'Investimento Estimado', est_includes: 'Incluso', est_next: 'Próximo Passo',
+        est_next_text: 'Clique no botão abaixo para conversar diretamente comigo no WhatsApp e alinhar os detalhes.',
+    },
+    en: {
+        nav_services: 'Services', nav_portfolio: 'Portfolio', nav_pricing: 'Pricing', nav_testimonials: 'Testimonials', nav_contact: 'Contact', nav_cta: 'Free Quote',
+        hero_badge: 'Available for new projects',
+        hero_title_1: 'I Turn Your Ideas Into', hero_title_2: 'Premium Digital Experiences',
+        hero_subtitle: 'Website development, WordPress plugins, Android apps and CRM SaaS systems — with agency quality at an affordable price for freelancers and entrepreneurs.',
+        hero_subtitle2: 'Based in Japan 🇯🇵 · Serving clients in Brazil 🇧🇷 and worldwide 🌍',
+        hero_cta1: 'Chat on WhatsApp', hero_cta2: 'View Portfolio',
+        stat_projects: '+ Projects Delivered', stat_years: '+ Years of Experience', stat_clients: '+ Happy Clients', stat_countries: 'Countries Served',
+        scroll_down: 'Scroll down',
+        services_label: 'What I do', services_title: 'Complete Digital Solutions', services_subtitle: 'From concept to delivery, I take care of every detail so your digital project has the quality your business deserves.',
+        service1_title: 'Websites & Landing Pages', service1_desc: 'Corporate websites, high-converting landing pages and online stores. Responsive design optimized for SEO.',
+        service2_title: 'WordPress Plugins', service2_desc: 'Custom plugins that add unique features to your WordPress. Integrations, automations and optimizations.',
+        service3_title: 'Android Apps', service3_desc: 'Native and hybrid Android apps for your business. From MVP to full app published on the Play Store.',
+        service4_title: 'CRM & SaaS', service4_desc: 'Custom web systems to manage clients, sales and processes. Tailored dashboards and automations.',
+        portfolio_label: 'GitHub Portfolio', portfolio_title: 'Open Source Projects', portfolio_subtitle: 'Check out some of my real projects on GitHub — open source code that demonstrates quality and dedication.',
+        case1_title: 'CRM-Terreiro — Management System', case1_desc: 'Complete CRM for management with dashboard, member control, services, finances, subscriptions and reports. Robust web system with PHP 8, MySQL and Tailwind CSS.', case1_stat: 'Open Source', case1_time: 'PHP + MySQL',
+        case2_title: 'Auto Workshop — Management System', case2_desc: 'Web system for auto workshop management with client, vehicle, service, parts and work order control. Modern TypeScript interface.', case2_stat: 'Open Source', case2_time: 'TypeScript',
+        case3_title: 'TikTokScroll — Flutter Video App', case3_desc: 'Flutter app that simulates the TikTok automatic video scrolling experience. Built with Dart, showcasing expertise in video playback and native mobile UI.', case3_stat: 'Open Source', case3_time: 'Flutter + Dart',
+        pricing_label: 'Investment', pricing_title: 'Premium Quality, Fair Price', pricing_subtitle: 'Each project is unique. Pricing defined according to the complexity and specific needs of your business.',
+        plan1_name: 'Essential', plan1_desc: 'Ideal for those needing a professional online presence', plan1_price: 'Let\'s Talk', plan1_brl: 'Fair price for each project',
+        plan1_f1: 'Responsive landing page (up to 5 sections)', plan1_f2: 'Modern SEO-optimized design', plan1_f3: 'WhatsApp & social media integration', plan1_f4: 'Delivery within 2 weeks',
+        plan2_badge: 'MOST POPULAR', plan2_name: 'Professional', plan2_desc: 'For those wanting a complete project with advanced features', plan2_price: 'Let\'s Talk', plan2_brl: 'Best value for money',
+        plan2_f1: 'Complete website or Android App (up to 10 screens)', plan2_f2: 'Custom admin panel', plan2_f3: 'Payment & API integrations', plan2_f4: '30 days of post-delivery support', plan2_f5: 'Play Store publishing included',
+        plan3_name: 'Enterprise', plan3_desc: 'Complete CRM, SaaS and custom system solutions', plan3_price: 'Let\'s Talk', plan3_brl: 'Custom solution for you',
+        plan3_f1: 'Complete custom CRM/SaaS system', plan3_f2: 'Dashboard with reports and metrics', plan3_f3: 'Advanced automations and integrations', plan3_f4: '60 days of support and training',
+        plan_cta: 'Request a Quote',
+        testimonials_label: 'Testimonials', testimonials_title: 'What My Clients Say',
+        testimonial1_text: '"I thought having a professional website was only for big companies. André showed me it\'s possible to have premium quality at a price that fits a freelancer\'s budget."', testimonial1_name: 'Maria Fernanda', testimonial1_role: 'Artisan · Belo Horizonte',
+        testimonial2_text: '"The CRM he developed completely changed my routine. I used to lose hours on spreadsheets, now everything is automatic. Highly recommend for anyone who needs to organize clients."', testimonial2_name: 'Roberto Mendes', testimonial2_role: 'Career Coach · São Paulo',
+        testimonial3_text: '"My students loved the app! Now they book their own sessions and I get real-time notifications. André understood exactly what I needed and delivered fast."', testimonial3_name: 'Carla Souza', testimonial3_role: 'Personal Trainer · Rio de Janeiro',
+        contact_label: "Let's Talk", contact_title: 'Describe Your Project', contact_subtitle: "Tell me about your idea and get a personalized estimate. I'll reply within 24 hours via WhatsApp.",
+        form_name_label: 'Your Name', form_name_placeholder: 'What should I call you?',
+        form_type_label: 'Project Type', form_type_placeholder: 'Select project type...',
+        form_type_opt1: 'Website / Landing Page', form_type_opt2: 'WordPress Plugin', form_type_opt3: 'Android App', form_type_opt4: 'CRM / SaaS System', form_type_opt5: 'Other',
+        form_desc_label: 'Describe Your Project', form_desc_placeholder: 'E.g.: I need a website for my clothing store with a product catalog, WhatsApp integration and payment system...',
+        form_budget_label: 'Estimated Budget', form_budget_placeholder: 'Select a range...',
+        form_budget_opt1: 'Simple project (landing page, basic site)', form_budget_opt2: 'Medium project (full site, plugin, app)', form_budget_opt3: 'Advanced project (system, CRM, SaaS)', form_budget_opt4: 'Enterprise project / Custom',
+        form_submit: 'Send via WhatsApp',
+        processing_title: 'Preparing your message...', processing_subtitle: 'Generating personalized estimate',
+        result_title: 'Estimate Generated!', result_wa_btn: 'Open WhatsApp Now', result_reset: '← Submit another project',
+        footer_copy: '© 2026 AndréTSC. All rights reserved. Made with ❤️ in Japan.',
+        est_type: 'Project Type', est_timeline: 'Estimated Timeline', est_price: 'Estimated Investment', est_includes: 'Included', est_next: 'Next Step',
+        est_next_text: 'Click the button below to chat with me directly on WhatsApp and align the details.',
+    },
+    jp: {
+        nav_services: 'サービス', nav_portfolio: 'ポートフォリオ', nav_pricing: '料金', nav_testimonials: 'お客様の声', nav_contact: 'お問い合わせ', nav_cta: '無料見積もり',
+        hero_badge: '新規プロジェクト受付中',
+        hero_title_1: 'あなたのアイデアを', hero_title_2: 'プレミアムなデジタル体験に',
+        hero_subtitle: 'ウェブサイト開発、WordPressプラグイン、Androidアプリ、CRM SaaSシステム — エージェンシー品質をフリーランサーや起業家に手頃な価格で。',
+        hero_subtitle2: '日本在住 🇯🇵 · ブラジル 🇧🇷 と世界中のお客様にサービス提供 🌍',
+        hero_cta1: 'WhatsAppで相談', hero_cta2: 'ポートフォリオを見る',
+        stat_projects: '+ 納品済みプロジェクト', stat_years: '+ 年の経験', stat_clients: '+ 満足のお客様', stat_countries: 'カ国に対応',
+        scroll_down: '下にスクロール',
+        services_label: '提供サービス', services_title: '完全なデジタルソリューション', services_subtitle: 'コンセプトから納品まで、あなたのビジネスにふさわしい品質のデジタルプロジェクトを実現します。',
+        service1_title: 'サイト & ランディングページ', service1_desc: 'コーポレートサイト、高コンバージョンのランディングページ、ECサイト。SEO最適化されたレスポンシブデザイン。',
+        service2_title: 'WordPressプラグイン', service2_desc: 'WordPressにユニークな機能を追加するカスタムプラグイン。統合、自動化、最適化。',
+        service3_title: 'Androidアプリ', service3_desc: 'ビジネス向けのネイティブ・ハイブリッドAndroidアプリ。MVPからPlay Store公開まで。',
+        service4_title: 'CRM & SaaS', service4_desc: '顧客、売上、プロセスを管理するカスタムWebシステム。オーダーメイドのダッシュボードと自動化。',
+        portfolio_label: 'GitHubポートフォリオ', portfolio_title: 'オープンソースプロジェクト', portfolio_subtitle: 'GitHubの実際のプロジェクトをご覧ください — 品質と献身を示すオープンソースコード。',
+        case1_title: 'CRM-Terreiro — 管理システム', case1_desc: 'ダッシュボード、メンバー管理、サービス、財務、月額課金、レポート機能を備えた完全なCRM。PHP 8、MySQL、Tailwind CSSによる堅牢なWebシステム。', case1_stat: 'オープンソース', case1_time: 'PHP + MySQL',
+        case2_title: '自動車整備工場 — 管理システム', case2_desc: '顧客、車両、サービス、部品、作業指示書の管理機能を備えた自動車整備工場向けWebシステム。TypeScriptによるモダンなインターフェース。', case2_stat: 'オープンソース', case2_time: 'TypeScript',
+        case3_title: 'TikTokScroll — Flutter動画アプリ', case3_desc: 'TikTokの自動動画スクロール体験を再現するFlutterアプリ。Dartで開発し、動画再生とネイティブモバイルUIの専門性を実証。', case3_stat: 'オープンソース', case3_time: 'Flutter + Dart',
+        pricing_label: '料金プラン', pricing_title: 'プレミアム品質、公正な価格', pricing_subtitle: '各プロジェクトはユニークです。ビジネスの複雑さと具体的なニーズに応じて価格を設定します。',
+        plan1_name: 'エッセンシャル', plan1_desc: 'プロフェッショナルなオンラインプレゼンスが必要な方に', plan1_price: 'ご相談ください', plan1_brl: 'プロジェクトごとに公正な価格',
+        plan1_f1: 'レスポンシブLP（最大5セクション）', plan1_f2: 'モダンなSEO最適化デザイン', plan1_f3: 'WhatsApp・SNS連携', plan1_f4: '2週間以内に納品',
+        plan2_badge: '一番人気', plan2_name: 'プロフェッショナル', plan2_desc: '高度な機能を備えた完全なプロジェクトをお求めの方に', plan2_price: 'ご相談ください', plan2_brl: '最高のコストパフォーマンス',
+        plan2_f1: '完全なサイトまたはAndroidアプリ（最大10画面）', plan2_f2: 'カスタム管理パネル', plan2_f3: '決済・API連携', plan2_f4: '納品後30日間サポート', plan2_f5: 'Play Store公開込み',
+        plan3_name: 'エンタープライズ', plan3_desc: 'CRM、SaaS、カスタムシステムの完全ソリューション', plan3_price: 'ご相談ください', plan3_brl: 'オーダーメイドソリューション',
+        plan3_f1: '完全カスタムCRM/SaaSシステム', plan3_f2: 'レポート・指標ダッシュボード', plan3_f3: '高度な自動化と統合', plan3_f4: '60日間のサポートとトレーニング',
+        plan_cta: '見積もりを依頼',
+        testimonials_label: 'お客様の声', testimonials_title: 'クライアントの声',
+        testimonial1_text: '「プロのウェブサイトは大企業だけのものだと思っていました。アンドレはフリーランサーの予算に合うプレミアム品質が可能だと教えてくれました。」', testimonial1_name: 'マリア・フェルナンダ', testimonial1_role: '工芸作家 · ベロオリゾンテ',
+        testimonial2_text: '「彼が開発したCRMは私の日常を完全に変えました。スプレッドシートに何時間も費やしていたのが、今はすべて自動です。クライアント管理が必要な方に強くお勧めします。」', testimonial2_name: 'ロベルト・メンデス', testimonial2_role: 'キャリアコーチ · サンパウロ',
+        testimonial3_text: '「生徒たちがアプリを気に入りました！今では自分でトレーニングを予約し、リアルタイムで通知が届きます。アンドレは私のニーズを正確に理解し、迅速に納品してくれました。」', testimonial3_name: 'カルラ・ソウザ', testimonial3_role: 'パーソナルトレーナー · リオデジャネイロ',
+        contact_label: 'お問い合わせ', contact_title: 'プロジェクトを説明してください', contact_subtitle: 'アイデアをお聞かせください。24時間以内にWhatsAppでお返事いたします。',
+        form_name_label: 'お名前', form_name_placeholder: 'お名前をお聞かせください',
+        form_type_label: 'プロジェクトタイプ', form_type_placeholder: 'プロジェクトタイプを選択...',
+        form_type_opt1: 'サイト / ランディングページ', form_type_opt2: 'WordPressプラグイン', form_type_opt3: 'Androidアプリ', form_type_opt4: 'CRM / SaaSシステム', form_type_opt5: 'その他',
+        form_desc_label: 'プロジェクトの説明', form_desc_placeholder: '例：商品カタログ、WhatsApp連携、決済システム付きの衣料品店のウェブサイトが必要です...',
+        form_budget_label: '予算目安', form_budget_placeholder: '範囲を選択...',
+        form_budget_opt1: 'シンプルなプロジェクト（LP、基本サイト）', form_budget_opt2: '中規模プロジェクト（サイト、プラグイン、アプリ）', form_budget_opt3: '高度なプロジェクト（システム、CRM、SaaS）', form_budget_opt4: 'エンタープライズ / カスタム',
+        form_submit: 'WhatsAppで送信',
+        processing_title: 'メッセージを準備中...', processing_subtitle: 'カスタム見積もりを作成中',
+        result_title: '見積もり完了！', result_wa_btn: 'WhatsAppを開く', result_reset: '← 別のプロジェクトを送信',
+        footer_copy: '© 2026 AndréTSC. All rights reserved. Made with ❤️ in Japan.',
+        est_type: 'プロジェクトタイプ', est_timeline: '推定納期', est_price: '推定費用', est_includes: '含まれるもの', est_next: '次のステップ',
+        est_next_text: '下のボタンをクリックしてWhatsAppで直接ご連絡ください。詳細を調整しましょう。',
+    }
+};
+
+let currentLang = 'pt';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    const flags = { pt: '🇧🇷', en: '🇺🇸', jp: '🇯🇵' };
+    const labels = { pt: 'PT', en: 'EN', jp: 'JP' };
+
+    document.getElementById('currentLangFlag').textContent = flags[lang];
+    document.getElementById('currentLangLabel').textContent = labels[lang];
+    document.documentElement.lang = lang === 'jp' ? 'ja' : lang === 'en' ? 'en' : 'pt-BR';
+
+    if (lang === 'jp') {
+        document.body.classList.add('font-jp');
+    } else {
+        document.body.classList.remove('font-jp');
+    }
+
+    // Update all text elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+            el.textContent = t[key];
+        }
+    });
+
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) {
+            el.placeholder = t[key];
+        }
+    });
+
+    // Update select options
+    document.querySelectorAll('select option[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+            el.textContent = t[key];
+        }
+    });
+
+    closeLangMenu();
+}
+
+function toggleLangMenu() {
+    document.getElementById('langMenu').classList.toggle('hidden');
+}
+function closeLangMenu() {
+    document.getElementById('langMenu').classList.add('hidden');
+}
+
+// Close lang menu on outside click
+document.addEventListener('click', (e) => {
+    if (!document.getElementById('langDropdown').contains(e.target)) {
+        closeLangMenu();
+    }
+});
+
+// =============================================================
+// MOBILE MENU
+// =============================================================
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const iconOpen = document.getElementById('menuIconOpen');
+    const iconClose = document.getElementById('menuIconClose');
+    menu.classList.toggle('open');
+    iconOpen.classList.toggle('hidden');
+    iconClose.classList.toggle('hidden');
+}
+function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('menuIconOpen').classList.remove('hidden');
+    document.getElementById('menuIconClose').classList.add('hidden');
+}
+
+// =============================================================
+// FORM HANDLING & SIMULATED AI PROCESSING
+// =============================================================
+const projectEstimates = {
+    website: {
+        pt: { type: 'Site / Landing Page', timeline: '2 a 4 semanas', price: 'A combinar (vamos conversar!)', includes: ['Design responsivo personalizado', 'Otimização SEO completa', 'Integração WhatsApp e redes sociais', 'Formulário de contato', 'Hospedagem e domínio (orientação)'] },
+        en: { type: 'Website / Landing Page', timeline: '2 to 4 weeks', price: 'Let\'s discuss (contact me!)', includes: ['Custom responsive design', 'Full SEO optimization', 'WhatsApp & social media integration', 'Contact form', 'Hosting and domain (guidance)'] },
+        jp: { type: 'サイト / ランディングページ', timeline: '2〜4週間', price: 'ご相談ください', includes: ['カスタムレスポンシブデザイン', '完全なSEO最適化', 'WhatsApp・SNS連携', 'お問い合わせフォーム', 'ホスティング・ドメイン（ガイダンス）'] }
+    },
+    wordpress: {
+        pt: { type: 'Plugin WordPress', timeline: '3 a 5 semanas', price: 'A combinar (vamos conversar!)', includes: ['Desenvolvimento de plugin customizado', 'Integração com WooCommerce (se aplicável)', 'Painel de configurações no admin', 'Documentação técnica', '30 dias de suporte pós-entrega'] },
+        en: { type: 'WordPress Plugin', timeline: '3 to 5 weeks', price: 'Let\'s discuss (contact me!)', includes: ['Custom plugin development', 'WooCommerce integration (if applicable)', 'Admin settings panel', 'Technical documentation', '30 days post-delivery support'] },
+        jp: { type: 'WordPressプラグイン', timeline: '3〜5週間', price: 'ご相談ください', includes: ['カスタムプラグイン開発', 'WooCommerce連携（該当する場合）', '管理画面設定パネル', '技術ドキュメント', '納品後30日間サポート'] }
+    },
+    app: {
+        pt: { type: 'App Android', timeline: '4 a 8 semanas', price: 'A combinar (vamos conversar!)', includes: ['Design UI/UX moderno', 'Até 10 telas funcionais', 'Notificações push', 'Integração com APIs e banco de dados', 'Publicação na Play Store'] },
+        en: { type: 'Android App', timeline: '4 to 8 weeks', price: 'Let\'s discuss (contact me!)', includes: ['Modern UI/UX design', 'Up to 10 functional screens', 'Push notifications', 'API & database integration', 'Play Store publishing'] },
+        jp: { type: 'Androidアプリ', timeline: '4〜8週間', price: 'ご相談ください', includes: ['モダンなUI/UXデザイン', '最大10画面の機能', 'プッシュ通知', 'API・データベース連携', 'Play Store公開'] }
+    },
+    crm: {
+        pt: { type: 'CRM / Sistema SaaS', timeline: '6 a 12 semanas', price: 'A combinar (vamos conversar!)', includes: ['Sistema web completo e personalizado', 'Dashboard com relatórios e métricas', 'Gestão de clientes e processos', 'Automações e integrações', '60 dias de suporte e treinamento'] },
+        en: { type: 'CRM / SaaS System', timeline: '6 to 12 weeks', price: 'Let\'s discuss (contact me!)', includes: ['Complete custom web system', 'Dashboard with reports & metrics', 'Client & process management', 'Automations & integrations', '60 days support & training'] },
+        jp: { type: 'CRM / SaaSシステム', timeline: '6〜12週間', price: 'ご相談ください', includes: ['完全カスタムWebシステム', 'レポート・指標ダッシュボード', '顧客・プロセス管理', '自動化・統合', '60日間サポート・トレーニング'] }
+    },
+    other: {
+        pt: { type: 'Projeto Personalizado', timeline: 'A definir após conversa', price: 'A combinar (vamos conversar!)', includes: ['Análise detalhada de requisitos', 'Proposta personalizada', 'Cronograma sob medida', 'Suporte dedicado'] },
+        en: { type: 'Custom Project', timeline: 'To be defined after discussion', price: 'Let\'s discuss (contact me!)', includes: ['Detailed requirements analysis', 'Custom proposal', 'Tailored timeline', 'Dedicated support'] },
+        jp: { type: 'カスタムプロジェクト', timeline: '相談後に決定', price: 'ご相談ください', includes: ['詳細な要件分析', 'カスタム提案', 'オーダーメイドのスケジュール', '専任サポート'] }
+    }
+};
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('formName').value;
+    const type = document.getElementById('formType').value;
+    const desc = document.getElementById('formDesc').value;
+    const budget = document.getElementById('formBudget').value;
+
+    // Show processing state
+    document.getElementById('quoteForm').classList.add('hidden');
+    document.getElementById('processingState').classList.remove('hidden');
+
+    // Simulate 3 second processing
+    setTimeout(() => {
+        document.getElementById('processingState').classList.add('hidden');
+        showResult(name, type, desc, budget);
+    }, 3000);
+}
+
+function showResult(name, type, desc, budget) {
+    const t = translations[currentLang];
+    const estimate = projectEstimates[type]?.[currentLang] || projectEstimates.other[currentLang];
+
+    const includesHTML = estimate.includes.map(item =>
+        `<li class="flex items-start gap-2 text-sm text-dark-100"><svg class="w-4 h-4 text-gold-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>${item}</li>`
+    ).join('');
+
+    document.getElementById('resultContent').innerHTML = `
+        <div class="space-y-4">
+            <div class="flex justify-between items-center py-2 border-b border-dark-500/30">
+                <span class="text-sm text-dark-300">${t.est_type}</span>
+                <span class="text-sm font-semibold text-gold-400">${estimate.type}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-dark-500/30">
+                <span class="text-sm text-dark-300">${t.est_timeline}</span>
+                <span class="text-sm font-semibold text-white">${estimate.timeline}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-dark-500/30">
+                <span class="text-sm text-dark-300">${t.est_price}</span>
+                <span class="text-sm font-semibold text-gradient">${estimate.price}</span>
+            </div>
+            <div class="pt-2">
+                <span class="text-sm text-dark-300 block mb-3">${t.est_includes}:</span>
+                <ul class="space-y-2">${includesHTML}</ul>
+            </div>
+            <div class="pt-4 mt-4 border-t border-dark-500/30">
+                <p class="text-sm text-dark-300"><span class="text-gold-400 font-semibold">${t.est_next}:</span> ${t.est_next_text}</p>
+            </div>
+        </div>
+    `;
+
+    // Build WhatsApp message
+    const typeLabels = { website: 'Site/Landing Page', wordpress: 'Plugin WordPress', app: 'App Android', crm: 'CRM/SaaS', other: 'Outro' };
+    const budgetLabels = { low: 'Projeto simples', mid: 'Projeto médio', high: 'Projeto avançado', custom: 'Projeto enterprise' };
+
+    const message = encodeURIComponent(
+        `Olá André! 👋\n\n` +
+        `Meu nome é ${name}.\n` +
+        `Tenho interesse em um projeto de: ${typeLabels[type] || type}\n\n` +
+        `📋 Descrição:\n${desc}\n\n` +
+        `💰 Orçamento estimado: ${budgetLabels[budget] || 'Não informado'}\n\n` +
+        `Gostaria de conversar sobre os detalhes!`
+    );
+
+    document.getElementById('whatsappLink').href = `https://wa.me/817091741943?text=${message}`;
+    document.getElementById('resultState').classList.remove('hidden');
+}
+
+function resetForm() {
+    document.getElementById('quoteForm').classList.remove('hidden');
+    document.getElementById('quoteForm').reset();
+    document.getElementById('resultState').classList.add('hidden');
+    document.getElementById('processingState').classList.add('hidden');
+}
+
+// =============================================================
+// SCROLL ANIMATIONS
+// =============================================================
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Counter animation
+            if (entry.target.classList.contains('counter') || entry.target.querySelector('.counter')) {
+                const counters = entry.target.classList.contains('counter') ? [entry.target] : entry.target.querySelectorAll('.counter');
+                counters.forEach(counter => animateCounter(counter));
+            }
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.fade-up, .scale-in').forEach(el => observer.observe(el));
+
+// =============================================================
+// COUNTER ANIMATION
+// =============================================================
+function animateCounter(el) {
+    const target = parseInt(el.getAttribute('data-target'));
+    if (!target) return;
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+
+    const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        el.textContent = Math.floor(current);
+    }, 16);
+}
+
+// Initialize counters observation
+document.querySelectorAll('.counter').forEach(el => observer.observe(el.closest('.fade-up') || el));
+
+// =============================================================
+// PARTICLES BACKGROUND
+// =============================================================
+function createParticles() {
+    const container = document.getElementById('particles');
+    const particleCount = window.innerWidth < 768 ? 15 : 30;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particle.style.width = (Math.random() * 3 + 1) + 'px';
+        particle.style.height = particle.style.width;
+        container.appendChild(particle);
+    }
+}
+createParticles();
+
+// =============================================================
+// SMOOTH NAV HIGHLIGHT
+// =============================================================
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY + 100;
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        const link = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+        if (link) {
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                link.classList.add('text-gold-400');
+                link.classList.remove('text-dark-100');
+            } else {
+                link.classList.remove('text-gold-400');
+                link.classList.add('text-dark-100');
+            }
+        }
+    });
+});
+
+// =============================================================
+// INITIAL SETUP
+// =============================================================
+window.addEventListener('DOMContentLoaded', () => {
+    // Trigger initial animations
+    setTimeout(() => {
+        document.querySelectorAll('#hero .fade-up').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), i * 150);
+        });
+    }, 300);
+});
+</script>
+
+</body>
+</html>
