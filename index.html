@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>André TSC — Desenvolvimento Web Premium & Acessível</title>
     <meta name="description" content="Desenvolvimento de sites, plugins WordPress, apps Android e CRM SaaS com qualidade premium e preço acessível.">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <!-- Mobile Meta -->
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -97,6 +104,51 @@
         /* Language switcher glow */
         #langDropdown > button { animation: lang-glow 3s ease-in-out infinite alternate; }
         @keyframes lang-glow { 0% { box-shadow: 0 0 8px rgba(212,160,23,0.15), 0 0 20px rgba(212,160,23,0.05); } 100% { box-shadow: 0 0 15px rgba(212,160,23,0.35), 0 0 40px rgba(212,160,23,0.1); } }
+
+        /* ===== MOBILE RESPONSIVENESS ===== */
+        @media (max-width: 480px) {
+            /* Hero: reduce decorative circles that overflow */
+            #hero .absolute { display: none; }
+            #hero > .relative { padding-top: 2rem; padding-bottom: 2rem; }
+
+            /* Reduce section padding on small phones */
+            section { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+
+            /* Pricing featured plan: remove scale on mobile to prevent overflow */
+            .scale-\[1\.02\] { transform: scale(1) !important; }
+
+            /* Better touch targets for nav and buttons */
+            .nav-link, .mobile-menu a { padding: 0.75rem 0; font-size: 1rem; }
+
+            /* WhatsApp float button: slightly smaller on very small screens */
+            .wa-float { width: 3rem; height: 3rem; bottom: 1rem; right: 1rem; }
+            .wa-float svg { width: 1.5rem; height: 1.5rem; }
+
+            /* Scroll indicator: hide on very small screens */
+            #hero .absolute.bottom-8 { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            /* Ensure pricing cards don't overflow on tablets/phones */
+            .scale-\[1\.02\] { transform: scale(1) !important; }
+
+            /* Better spacing for form elements */
+            #quoteForm input, #quoteForm select, #quoteForm textarea {
+                font-size: 16px; /* Prevents iOS zoom on focus */
+            }
+
+            /* Ensure hero decorative circles don't cause horizontal scroll */
+            #hero { overflow: hidden; }
+
+            /* Footer stack nicely */
+            footer .flex { text-align: center; }
+        }
+
+        /* Safe area for devices with notch (iPhone X+) */
+        @supports (padding: env(safe-area-inset-bottom)) {
+            .wa-float { bottom: calc(1.5rem + env(safe-area-inset-bottom)); right: calc(1.5rem + env(safe-area-inset-right)); }
+            nav { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+        }
     </style>
 </head>
 <body>
