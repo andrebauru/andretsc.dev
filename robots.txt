@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /Ai%20Studio/
+Disallow: 
+
+Sitemap: https://andretsc.dev/sitemap.xml
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Crawl delay (in seconds) - 1 second between requests
+Crawl-delay: 1
